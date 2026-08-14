@@ -1,8 +1,12 @@
+import os
+
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from s2_public.data import census
-from config import settings  # this is where our API key is stored. You'll need to change this to get your own key.
+from dotenv import load_dotenv
+from data import census
+
+load_dotenv()
 
 
 @st.cache_data
@@ -43,7 +47,7 @@ def render():
         college_tf = False
         figure_text = "Ratio of College Educated Single Women to Men Ages 25 to 40"
 
-    df = get_state_data(settings.US_CENSUS_API_KEY, state_codes, college_educated=college_tf)
+    df = get_state_data(os.environ["US_CENSUS_API_KEY"], state_codes, college_educated=college_tf)
 
     fig = go.Figure(
         data=go.Choropleth(
